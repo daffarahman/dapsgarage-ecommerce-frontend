@@ -5,6 +5,7 @@ import { productsApi } from '@/services/api';
 import ProductDetail from './ProductDetail';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -44,19 +45,20 @@ export default function ProductDetailPage() {
 
     if (loading) {
         return (
-            <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 animate-pulse">
-                    <div className="w-full aspect-square bg-muted rounded-lg" />
+            <div className="container mx-auto px-4 py-8 max-w-[1200px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-1 gap-8 md:gap-12">
+                    <Skeleton className="w-full h-[400px] rounded-lg" />
 
                     <div className="flex flex-col gap-6">
-                        <div className="h-6 w-24 bg-muted rounded" />
-                        <div className="h-10 w-3/4 bg-muted rounded" />
-                        <div className="h-6 w-32 bg-muted rounded" />
-                        <div className="h-12 w-48 bg-muted rounded" />
-                        <div className="h-px bg-muted" />
-                        <div className="h-8 w-40 bg-muted rounded" />
-                        <div className="h-10 w-32 bg-muted rounded" />
-                        <div className="h-12 w-full bg-muted rounded" />
+                        <Skeleton className="h-6 w-24" />
+                        <Skeleton className="h-10 w-3/4" />
+                        <Skeleton className="h-6 w-32" />
+                        <Skeleton className="h-12 w-48" />
+                        <Skeleton className="h-px w-full" />
+                        <Skeleton className="h-8 w-40" />
+                        <Skeleton className="h-10 w-32" />
+                        <Skeleton className="h-12 w-full" />
+                        <Skeleton className="h-16 w-full" />
                     </div>
                 </div>
             </div>
