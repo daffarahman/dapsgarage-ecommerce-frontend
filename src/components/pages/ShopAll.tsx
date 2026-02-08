@@ -3,6 +3,7 @@ import type { Product } from "@/types/product";
 import { ProductCard } from "../ProductCard";
 import { productsApi } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import SectionHeader from "../SectionHeader";
 
 export default function ShopAll() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -29,10 +30,7 @@ export default function ShopAll() {
 
     return (
         <div className="container mx-auto px-4 py-16">
-            <header className="mb-12">
-                <h1 className="text-4xl font-serif text-center mb-2">Shop All</h1>
-                <div className="w-12 h-0.5 bg-primary mx-auto"></div>
-            </header>
+            <SectionHeader title="Shop All" />
 
             {loading && (
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">

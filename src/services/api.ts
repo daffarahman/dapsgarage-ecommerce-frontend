@@ -24,6 +24,12 @@ export const productsApi = {
         const response = await api.get<Product>(`/products/${id}`);
         return response.data;
     },
+
+    // Get new arrivals (3 newest in-stock products)
+    getNewArrivals: async (): Promise<Product[]> => {
+        const response = await api.get<Product[]>('/products?in_stock=true&first=3');
+        return response.data;
+    },
 };
 
 // Categories API

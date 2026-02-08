@@ -1,8 +1,17 @@
+import { NewArrivals } from "@/components/NewArrivals";
+import homeBanner from "@/assets/img/home-banner.png";
+
 export default function Home() {
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold">Welcome to Dap's Garage</h1>
-            <p className="mt-4 text-muted-foreground">Your e-commerce content goes here.</p>
+        <div>
+            <div className="w-full">
+                <img
+                    src={homeBanner}
+                    alt="Home Banner"
+                    className="w-full h-auto object-cover border-b"
+                />
+            </div>
+            <NewArrivals />
         </div>
     )
 }

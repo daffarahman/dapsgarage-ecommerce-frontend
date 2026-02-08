@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
                     <CardTitle className="text-sm font-medium uppercase tracking-tight leading-tight max-w-[200px]">
                         {product.title}
                     </CardTitle>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex max-sm:flex-col items-center gap-2 mt-2">
                         {hasDiscount(product) ? (
                             <>
                                 <p className={`text-base font-bold ${isOutOfStock ? 'text-muted-foreground' : 'text-destructive'}`}>
