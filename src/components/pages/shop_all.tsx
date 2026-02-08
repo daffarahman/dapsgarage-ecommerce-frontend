@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import type { Product } from "@/types/product";
-import { ProductCard } from "../ProductCard";
+import { ProductCard } from "../product_card";
 import { productsApi } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
-import SectionHeader from "../SectionHeader";
+import SectionHeader from "../section_header";
 
 export default function ShopAll() {
     const [products, setProducts] = useState<Product[]>([]);

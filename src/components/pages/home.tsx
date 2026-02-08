@@ -1,4 +1,4 @@
-import { NewArrivals } from "@/components/NewArrivals";
+import { NewArrivals } from "@/components/new_arrivals";
 import homeBanner from "@/assets/img/home-banner.png";
 
 export default function Home() {

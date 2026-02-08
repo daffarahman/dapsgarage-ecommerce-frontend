@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { categoriesApi } from "@/services/api";
 import type { Category } from "@/types/category";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -66,13 +67,13 @@ export default function Navbar() {
                                                     <NavigationMenuLink key={category.id} asChild>
                                                         <Link
                                                             to={`/collections/${category.slug}`}
-                                                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                                            className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground group"
                                                         >
                                                             <div className="flex items-center gap-2">
-                                                                <Gamepad className="h-4 w-4" />
+                                                                <Gamepad className="h-4 w-4 text-foreground group-hover:text-accent-foreground transition-colors" />
                                                                 <div className="text-sm font-medium leading-none">{category.name}</div>
                                                             </div>
-                                                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground group-hover:text-accent-foreground transition-colors">
                                                                 Browse {category.name} collection
                                                             </p>
                                                         </Link>
@@ -126,6 +127,11 @@ export default function Navbar() {
                             <Search className="h-5 w-5" />
                             <span className="sr-only">Search</span>
                         </Button>
+
+                        {/* Theme Toggle */}
+                        <div className="hidden sm:flex">
+                            <ModeToggle />
+                        </div>
 
                         {/* Cart Button */}
                         <Button variant="ghost" size="icon" className="relative">
@@ -203,7 +209,11 @@ export default function Navbar() {
                             >
                                 About
                             </Link>
-                            <div className="pt-4 border-t border-border">
+                            <div className="pt-4 border-t border-border space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium">Theme</span>
+                                    <ModeToggle />
+                                </div>
                                 <Button className="w-full">
                                     <User className="mr-2 h-4 w-4" />
                                     Sign In

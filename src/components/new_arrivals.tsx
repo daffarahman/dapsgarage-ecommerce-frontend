@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ProductCard } from "@/components/ProductCard";
+import { ProductCard } from "@/components/product_card";
 import { productsApi } from "@/services/api";
 import type { Product } from "@/types/product";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "./section_header";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function NewArrivals() {
