@@ -1,24 +1,49 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import type { Product } from "@/types/product";
+import type { Category } from "@/types/category";
 import { ProductCard } from "../product-card";
-import { productsApi } from "@/services/api";
+import { productsApi, categoriesApi } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import SectionHeader from "../section-header";
 
-export default function ShopAll() {
+export default function ProductListing() {
+    const { slug } = useParams<{ slug: string }>();
     const [products, setProducts] = useState<Product[]>([]);
+    const [category, setCategory] = useState<Category | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showOutOfStock, setShowOutOfStock] = useState(false);
 
+    const isShopAll = slug === 'shop-all';
+    const categorySlug = isShopAll ? null : slug;
+
+    const pageTitle = isShopAll ? "Shop All" : (category?.name || "Products");
+
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = showOutOfStock
-                    ? await productsApi.getAll()
-                    : await productsApi.getAllInStock();
+
+                if (categorySlug) {
+                    try {
+                        const categoryData = await categoriesApi.getBySlug(categorySlug);
+                        setCategory(categoryData);
+                    } catch (err) {
+                        console.error("Failed to fetch category:", err);
+                    }
+                }
+
+                let data: Product[];
+                if (categorySlug) {
+                    data = await productsApi.getByCategorySlug(categorySlug, !showOutOfStock);
+                } else {
+                    data = showOutOfStock
+                        ? await productsApi.getAll()
+                        : await productsApi.getAllInStock();
+                }
+
                 setProducts(data);
                 setError(null);
             } catch (err) {
@@ -29,27 +54,29 @@ export default function ShopAll() {
             }
         };
 
-        fetchProducts();
-    }, [showOutOfStock]);
+        fetchData();
+    }, [categorySlug, showOutOfStock]);
 
     return (
         <div className="container mx-auto px-4 py-16">
             <div className="flex flex-col gap-4 mb-8">
-                <SectionHeader title="Shop All" />
+                <SectionHeader title={pageTitle} />
 
-                <div className="flex flex-col items-center gap-3">
-                    <label
-                        htmlFor="show-out-of-stock"
-                        className="text-sm font-medium cursor-pointer"
-                    >
-                        Show out of stock
-                    </label>
-                    <Switch
-                        id="show-out-of-stock"
-                        checked={showOutOfStock}
-                        onCheckedChange={setShowOutOfStock}
-                    />
-                </div>
+                {!(!loading && !error && products.length === 0) && (
+                    <div className="flex flex-col items-center gap-3">
+                        <label
+                            htmlFor="show-out-of-stock"
+                            className="text-sm font-medium cursor-pointer"
+                        >
+                            Show out of stock products
+                        </label>
+                        <Switch
+                            id="show-out-of-stock"
+                            checked={showOutOfStock}
+                            onCheckedChange={setShowOutOfStock}
+                        />
+                    </div>
+                )}
             </div>
 
             {loading && (
@@ -74,7 +101,7 @@ export default function ShopAll() {
             )}
 
             {!loading && !error && products.length === 0 && (
-                <div className="text-center py-12">
+                <div className="text-center py-12 w-full">
                     <p className="text-muted-foreground">No products found.</p>
                 </div>
             )}

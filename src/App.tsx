@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import { Route, Routes } from "react-router"
 import Home from "@/components/pages/home"
-import ShopAll from "@/components/pages/shop-all"
+import ProductListing from "@/components/pages/product-listing"
 import ProductDetailPage from "@/components/pages/product-detail-page"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -14,7 +14,7 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/collections/shop-all" element={<ShopAll />} />
+            <Route path="/collections/:slug" element={<ProductListing />} />
             <Route path="/collections/product/:id" element={<ProductDetailPage />} />
           </Routes>
         </main>
