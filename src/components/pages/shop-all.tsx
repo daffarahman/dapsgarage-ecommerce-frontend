@@ -3,18 +3,22 @@ import type { Product } from "@/types/product";
 import { ProductCard } from "../product-card";
 import { productsApi } from "@/services/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Switch } from "@/components/ui/switch";
 import SectionHeader from "../section-header";
 
 export default function ShopAll() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [showOutOfStock, setShowOutOfStock] = useState(false);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const data = await productsApi.getAll();
+                const data = showOutOfStock
+                    ? await productsApi.getAll()
+                    : await productsApi.getAllInStock();
                 setProducts(data);
                 setError(null);
             } catch (err) {
@@ -26,11 +30,27 @@ export default function ShopAll() {
         };
 
         fetchProducts();
-    }, []);
+    }, [showOutOfStock]);
 
     return (
         <div className="container mx-auto px-4 py-16">
-            <SectionHeader title="Shop All" />
+            <div className="flex flex-col gap-4 mb-8">
+                <SectionHeader title="Shop All" />
+
+                <div className="flex flex-col items-center gap-3">
+                    <label
+                        htmlFor="show-out-of-stock"
+                        className="text-sm font-medium cursor-pointer"
+                    >
+                        Show out of stock
+                    </label>
+                    <Switch
+                        id="show-out-of-stock"
+                        checked={showOutOfStock}
+                        onCheckedChange={setShowOutOfStock}
+                    />
+                </div>
+            </div>
 
             {loading && (
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">

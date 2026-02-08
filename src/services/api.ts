@@ -19,6 +19,11 @@ export const productsApi = {
         return response.data;
     },
 
+    getAllInStock: async (): Promise<Product[]> => {
+        const response = await api.get<Product[]>('/products?in_stock=true');
+        return response.data;
+    },
+
     // Get single product by ID
     getById: async (id: string): Promise<Product> => {
         const response = await api.get<Product>(`/products/${id}`);
