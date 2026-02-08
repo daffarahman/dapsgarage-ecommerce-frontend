@@ -1,0 +1,63 @@
+import { useEffect, useState } from "react";
+import type { Product } from "@/types/product";
+import { ProductCard } from "../ProductCard";
+import { productsApi } from "@/services/api";
+
+export default function ShopAll() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                const data = await productsApi.getAll();
+                setProducts(data);
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch products:", err);
+                setError("Failed to load products. Please try again later.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    return (
+        <div className="container mx-auto px-4 py-16">
+            <header className="mb-12">
+                <h1 className="text-4xl font-serif text-center mb-2">Shop All</h1>
+                <div className="w-12 h-0.5 bg-primary mx-auto"></div>
+            </header>
+
+            {loading && (
+                <div className="text-center py-12">
+                    <p className="text-muted-foreground">Loading products...</p>
+                </div>
+            )}
+
+            {error && (
+                <div className="text-center py-12">
+                    <p className="text-destructive">{error}</p>
+                </div>
+            )}
+
+            {!loading && !error && products.length === 0 && (
+                <div className="text-center py-12">
+                    <p className="text-muted-foreground">No products found.</p>
+                </div>
+            )}
+
+            {!loading && !error && products.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+                    {products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
