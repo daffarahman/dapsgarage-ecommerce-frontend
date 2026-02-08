@@ -1,21 +1,25 @@
 import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 import { Route, Routes } from "react-router"
 import Home from "@/components/pages/home"
-import ShopAll from "@/components/pages/shop_all"
-import ProductDetailPage from "@/components/pages/product_detail_page"
+import ShopAll from "@/components/pages/shop-all"
+import ProductDetailPage from "@/components/pages/product-detail-page"
 import { ThemeProvider } from "@/components/theme-provider"
 
 function App() {
   return (
     <ThemeProvider defaultTheme="system" storageKey="dapsgarage-ui-theme">
-      <main className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/collections/shop-all" element={<ShopAll />} />
-          <Route path="/collections/product/:id" element={<ProductDetailPage />} />
-        </Routes>
-      </main>
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/collections/shop-all" element={<ShopAll />} />
+            <Route path="/collections/product/:id" element={<ProductDetailPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </ThemeProvider>
   )
 }
