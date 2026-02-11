@@ -18,5 +18,8 @@ export default defineConfig({
         secure: false,
       },
     },
+    allowedHosts: [
+      "shop.madebydap.my.id"
+    ]
   },
 })
