@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import type { Product } from '@/types/product';
-import { productsApi } from '@/services/api';
+import { productsApi } from '@/api/product';
 import ProductDetail from './product-detail';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

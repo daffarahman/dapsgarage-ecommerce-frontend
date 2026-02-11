@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ProductCard } from "@/components/product-card";
-import { productsApi } from "@/services/api";
+import { productsApi } from "@/api/product";
 import type { Product } from "@/types/product";
 import SectionHeader from "./section-header";
 import { Skeleton } from "@/components/ui/skeleton";

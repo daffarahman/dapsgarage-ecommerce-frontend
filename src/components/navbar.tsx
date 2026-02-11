@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { categoriesApi } from "@/services/api";
+import { categoriesApi } from "@/api/category";
 import type { Category } from "@/types/category";
 import { ModeToggle } from "@/components/mode-toggle";
 
