@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# Dap's Garage E-commerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern e-commerce frontend application built for performance and maintainability.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   **Framework:** React 19 with TypeScript
+-   **Build Tool:** Vite
+-   **Styling:** Tailwind CSS 4
+-   **UI Components:** Shadcn UI, Lucide React
+-   **Routing:** React Router 7
+-   **HTTP Client:** Axios
+-   **Deployment:** Docker, Nginx
 
-## React Compiler
+## Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1.  **Install dependencies:**
 
-## Expanding the ESLint configuration
+    ```bash
+    npm install
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2.  **Start the development server:**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    ```bash
+    npm run dev
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3.  **Build for production:**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    ```bash
+    npm run build
+    ```
+
+## Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_API_BASE_URL=https://api.yourdomain.com
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Docker Deployment (Manual)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+You can build and deploy this application using Docker without GitHub Actions.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+
+-   Docker installed on your local machine.
+-   Access to a remote server via SSH.
+
+### 1. Build the Docker Image
+
+1.  Ensure your `.env` file is set up with the correct API URL.
+2.  Build the image:
+
+    ```bash
+    docker build -t dapsgarage-frontend .
+    ```
+
+### 2. Run Locally
+
+Test the build on port 3000:
+
+```bash
+docker run -p 3000:80 dapsgarage-frontend
+```
+
+Visit `http://localhost:3000` to verify.
+
+### 3. Deploy to Server
+
+**Step 1: Save the image**
+
+```bash
+docker save -o dapsgarage-frontend.tar dapsgarage-frontend:latest
+```
+
+**Step 2: Copy to server**
+
+```bash
+scp dapsgarage-frontend.tar user@your-server-ip:/tmp/
+```
+
+**Step 3: Load and run on server**
+
+SSH into your server and run:
+
+```bash
+# Load the image
+docker load -i /tmp/dapsgarage-frontend.tar
+
+# Stop and remove existing container
+docker stop dapsgarage-frontend || true
+docker rm dapsgarage-frontend || true
+
+# Run the new container (mapped to port 6701)
+docker run -d \
+  --name dapsgarage-frontend \
+  -p 6701:80 \
+  --restart unless-stopped \
+  dapsgarage-frontend:latest
+
+# Cleanup
+rm /tmp/dapsgarage-frontend.tar
 ```
