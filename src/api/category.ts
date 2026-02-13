@@ -3,12 +3,12 @@ import type { Category } from '@/types/category';
 
 export const categoriesApi = {
     getAll: async (): Promise<Category[]> => {
-        const response = await apiClient.get<Category[]>('/category');
+        const response = await apiClient.get<Category[]>('/categories');
         return response.data;
     },
 
     getBySlug: async (slug: string): Promise<Category> => {
-        const response = await apiClient.get<Category>(`/category/${slug}`);
+        const response = await apiClient.get<Category>(`/categories/${slug}`);
         return response.data;
     },
 };
